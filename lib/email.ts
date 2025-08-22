@@ -91,3 +91,4 @@ export async function sendAdminNotification(data: EmailData): Promise<void> {
 
   await transporter.sendMail(mailOptions);
 }
+
