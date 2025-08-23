@@ -59,6 +59,10 @@ module.exports = {
       },
       fontFamily: {
         'script': ['Playfair Display', 'serif'],
+        'birthstone': ['var(--font-birthstone)', 'serif'],
+        'figtree': ['var(--font-figtree)', 'sans-serif'],
+        'nunito': ['var(--font-nunito)', 'sans-serif'],
+        'poppins': ['var(--font-poppins)', 'sans-serif'],
         'sans': ['Inter', 'sans-serif'],
       },
       backgroundImage: {

@@ -5,40 +5,36 @@ export default function Home() {
   return (
     <main className="min-h-screen">
       <Header />
-      
+
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center">
         {/* Background Image */}
-        <div 
+        <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
             backgroundImage: "url('/images/BG_image.png')"
           }}
         >
-          <div className="absolute inset-0 bg-black/30"></div>
         </div>
-        
+
         {/* Content */}
         <div className="relative z-10 container mx-auto px-4">
           <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 tracking-wide">
-              MONKY WALDEN
+            <h1 className="text-4xl md:text-[56px] font-figtree text-white mb-4 tracking-[0.44em]">
+              WONKY WALDEN
             </h1>
-            <h2 className="text-5xl md:text-7xl font-script text-white mb-8">
+            <h2 className="text-5xl md:text-[120px] font-birthstone text-white mb-8">
               Book Nook
             </h2>
-            <p className="text-xl text-white/90 max-w-2xl mx-auto">
-              Escape to our cozy reading sanctuary nestled in nature's embrace
-            </p>
           </div>
-          
+
           {/* Booking Interface */}
           <div className="w-full">
             <BookingInterface />
           </div>
         </div>
       </section>
-      
+
       {/* Features Section */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
@@ -50,7 +46,7 @@ export default function Home() {
               Experience the perfect blend of comfort, nature, and literary inspiration
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -63,7 +59,7 @@ export default function Home() {
                 Handpicked collection of books across all genres for every reader
               </p>
             </div>
-            
+
             <div className="text-center">
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -75,7 +71,7 @@ export default function Home() {
                 Warm, inviting spaces designed for ultimate reading comfort
               </p>
             </div>
-            
+
             <div className="text-center">
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -90,7 +86,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      
+
       {/* Footer */}
       <footer className="bg-green-800 text-white py-12">
         <div className="container mx-auto px-4 text-center">

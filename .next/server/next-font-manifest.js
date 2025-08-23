@@ -1,1 +1,1 @@
-self.__NEXT_FONT_MANIFEST="{\"pages\":{},\"app\":{},\"appUsingSizeAdjust\":false,\"pagesUsingSizeAdjust\":false}"
+self.__NEXT_FONT_MANIFEST="{\"pages\":{},\"app\":{\"/Users/johnalesiresurreccion/Desktop/Alesi/Wonky/app/layout\":[\"static/media/7105f347ed28b2fe-s.p.woff2\",\"static/media/de42cfb9a3b980ae-s.p.woff2\",\"static/media/e4af272ccee01ff0-s.p.woff2\",\"static/media/40d40f0f334d7ad1-s.p.woff2\"]},\"appUsingSizeAdjust\":true,\"pagesUsingSizeAdjust\":false}"
