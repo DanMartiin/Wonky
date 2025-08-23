@@ -43,4 +43,3 @@ export async function closeDatabase(): Promise<void> {
     db = null;
   }
 }
-

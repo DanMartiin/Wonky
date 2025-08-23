@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer';
 
 // Configure email transporter (you'll need to set up your own email service)
-const transporter = nodemailer.createTransporter({
+const transporter = nodemailer.createTransport({
   service: 'gmail', // or your preferred email service
   auth: {
     user: process.env.EMAIL_USER || 'your-email@gmail.com',
@@ -91,4 +91,3 @@ export async function sendAdminNotification(data: EmailData): Promise<void> {
 
   await transporter.sendMail(mailOptions);
 }
-
