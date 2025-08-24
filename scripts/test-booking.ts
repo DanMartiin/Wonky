@@ -15,9 +15,9 @@ async function testBooking() {
         mobileNumber: '+1234567890',
         notes: 'Test booking',
         guestCount: 2,
-        date: new Date('2024-12-25'),
-        checkInTime: '14:00',
-        checkOutTime: '11:00',
+        date: new Date('2025-10-07'),
+        checkInTime: '10:00',
+        checkOutTime: '12:00',
       },
     });
 

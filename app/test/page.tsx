@@ -21,9 +21,9 @@ export default function TestPage() {
           mobileNumber: '+1234567890',
           notes: 'Test booking from UI',
           guestCount: 2,
-          date: '2024-12-25',
-          checkInTime: '14:00',
-          checkOutTime: '11:00',
+          date: '2025-10-07',
+          checkInTime: '10:00',
+          checkOutTime: '12:00',
         }),
       });
 
