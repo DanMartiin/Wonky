@@ -1,95 +1,101 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getDatabase } from '@/lib/database';
-import { bookingSchema } from '@/lib/validation';
-import { sendVerificationEmail } from '@/lib/email';
-import { generateVerificationToken } from '@/lib/utils';
+import { PrismaClient } from '../../../generated/prisma';
+import { sendBookingConfirmationEmail } from '@/lib/email';
+
+const prisma = new PrismaClient();
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    
-    // Validate the request body
-    const validatedData = bookingSchema.parse(body);
-    
-    const db = await getDatabase();
-    
-    // Check if email already exists
-    const existingBooking = await db.get(
-      'SELECT id FROM bookings WHERE email = ?',
-      [validatedData.email]
-    );
-    
-    if (existingBooking) {
+    const {
+      firstName,
+      lastName,
+      email,
+      mobileNumber,
+      notes,
+      guestCount,
+      date,
+      checkInTime,
+      checkOutTime,
+    } = body;
+
+    // Validate required fields
+    if (!firstName || !lastName || !email || !mobileNumber || !guestCount || !date || !checkInTime || !checkOutTime) {
       return NextResponse.json(
-        { error: 'A booking with this email already exists' },
+        { error: 'Missing required fields' },
         { status: 400 }
       );
     }
-    
-    // Generate verification token
-    const verificationToken = generateVerificationToken();
-    
-    // Insert the booking
-    const result = await db.run(
-      `INSERT INTO bookings (name, email, date, time, notes, verification_token) 
-       VALUES (?, ?, ?, ?, ?, ?)`,
-      [
-        validatedData.name,
-        validatedData.email,
-        validatedData.date,
-        validatedData.time,
-        validatedData.notes || '',
-        verificationToken,
-      ]
-    );
-    
-    // Send verification email
-    try {
-      await sendVerificationEmail(validatedData.email, verificationToken);
-    } catch (emailError) {
-      console.error('Failed to send verification email:', emailError);
-      // Continue with the booking even if email fails
-    }
-    
+
+    // Create booking
+    const booking = await prisma.booking.create({
+      data: {
+        firstName,
+        lastName,
+        email,
+        mobileNumber,
+        notes: notes || '',
+        guestCount: parseInt(guestCount),
+        date: new Date(date),
+        checkInTime,
+        checkOutTime,
+      },
+    });
+
+    // Send confirmation email
+    await sendBookingConfirmationEmail(booking);
+
     return NextResponse.json(
       { 
-        message: 'Booking created successfully. Please check your email to verify your booking.',
-        bookingId: result.lastID 
+        message: 'Booking created successfully',
+        bookingId: booking.id,
+        confirmationToken: booking.confirmationToken 
       },
       { status: 201 }
     );
-    
   } catch (error) {
-    console.error('Booking creation error:', error);
-    
-    if (error instanceof Error && error.message.includes('validation')) {
-      return NextResponse.json(
-        { error: 'Invalid booking data' },
-        { status: 400 }
-      );
-    }
-    
+    console.error('Error creating booking:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Failed to create booking' },
       { status: 500 }
     );
   }
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    const db = await getDatabase();
+    const { searchParams } = new URL(request.url);
+    const status = searchParams.get('status');
+    const date = searchParams.get('date');
+
+    let where: any = {};
     
-    const bookings = await db.all(
-      'SELECT * FROM bookings WHERE is_verified = TRUE ORDER BY created_at DESC'
-    );
+    if (status) {
+      where.status = status;
+    }
     
+    if (date) {
+      where.date = {
+        gte: new Date(date),
+        lt: new Date(new Date(date).getTime() + 24 * 60 * 60 * 1000), // Next day
+      };
+    }
+
+    const bookings = await prisma.booking.findMany({
+      where,
+      include: {
+        confirmedBooking: true,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
     return NextResponse.json(bookings);
-    
   } catch (error) {
     console.error('Error fetching bookings:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Failed to fetch bookings' },
       { status: 500 }
     );
   }

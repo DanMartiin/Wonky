@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Booking {
+  id              String   @id @default(uuid())
+  firstName       String
+  lastName        String
+  email           String
+  mobileNumber    String
+  notes           String?
+  guestCount      Int
+  date            DateTime
+  checkInTime     String   // Store as string like "14:00" or "2:00 PM"
+  checkOutTime    String   // Store as string like "11:00" or "11:00 AM"
+  status          BookingStatus @default(PENDING)
+  confirmationToken String @unique @default(uuid()) // For email confirmation
+  editToken       String @unique @default(uuid()) // For editing without auth
+  cancelToken     String @unique @default(uuid()) // For cancellation without auth
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  confirmedBooking ConfirmedBooking?
+
+  @@map("bookings")
+}
+
+model ConfirmedBooking {
+  id        String   @id @default(uuid())
+  bookingId String   @unique
+  confirmedAt DateTime @default(now())
+  
+  // Relations
+  booking   Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  @@map("confirmed_bookings")
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
