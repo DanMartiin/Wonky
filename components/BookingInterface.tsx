@@ -56,7 +56,6 @@ export default function BookingInterface() {
 
       if (response.ok) {
         setAvailability(data);
-        console.log('Availability result:', data);
       } else {
         alert(data.error || 'Failed to check availability');
       }

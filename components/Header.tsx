@@ -6,8 +6,8 @@ export default function Header() {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <div className="text-white font-bold text-xl font-poppins">
-            MONKY WALDEN
+          <div className="text-white font-thin text-xl font-poppins tracking-[.24em]">
+            wonky walden
           </div>
           
           {/* Contact Info */}

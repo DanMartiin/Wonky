@@ -11,13 +11,6 @@ export default function PaymentPage({ searchParams }: { searchParams: Record<str
     <main className="min-h-screen bg-[#F8F6F3]">
       <Header />
       <div className="container mx-auto px-4 py-10">
-        <div className="mb-6 flex items-center gap-2 text-xs text-gray-600">
-          <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-gray-200">1</span>
-          <span>Booking details</span>
-          <span className="mx-2 text-gray-400">•</span>
-          <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-green-700 text-white">2</span>
-          <span>Confirm and Pay</span>
-        </div>
 
         <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="md:col-span-2 bg-white border rounded-md p-6 shadow-sm">

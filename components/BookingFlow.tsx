@@ -97,5 +97,3 @@ export default function BookingFlow() {
     </div>
   );
 }
-
-

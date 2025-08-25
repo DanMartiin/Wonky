@@ -3,10 +3,10 @@ import { PrismaClient } from '../../../../generated/prisma/index';
 
 const prisma = new PrismaClient();
 
-export async function POST(request: NextRequest) {
+export async function POST(req: Request) {
   try {
-    const body = await request.json();
-    const { token } = body;
+    const { token } = await req.json();
+
 
     if (!token) {
       return NextResponse.json(
@@ -21,12 +21,15 @@ export async function POST(request: NextRequest) {
       include: { confirmedBooking: true },
     });
 
+
     if (!booking) {
+
       return NextResponse.json(
         { error: 'Invalid confirmation token' },
         { status: 404 }
       );
     }
+
 
     if (booking.status !== 'PENDING') {
       return NextResponse.json(
@@ -43,25 +46,38 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Update booking status and create confirmed booking
-    const [updatedBooking, confirmedBooking] = await prisma.$transaction([
-      prisma.booking.update({
+    // Idempotent confirm
+    const result = await prisma.$transaction(async (tx) => {
+      // Upsert confirmation record (avoids unique constraint race)
+      await tx.confirmedBooking.upsert({
+        where: { bookingId: booking.id },   // bookingId must be unique in schema
+        create: { bookingId: booking.id },
+        update: {},                         // no changes if it exists
+      });
+
+      // Mark booking as confirmed (safe to set again)
+      const updated = await tx.booking.update({
         where: { id: booking.id },
         data: { status: 'CONFIRMED' },
-      }),
-      prisma.confirmedBooking.create({
-        data: { bookingId: booking.id },
-      }),
-    ]);
+      });
 
-    return NextResponse.json({
-      message: 'Booking confirmed successfully',
-      booking: updatedBooking,
+      return updated;
     });
-  } catch (error) {
+
+    return NextResponse.json({ message: 'Booking confirmed successfully', booking: result });
+  } catch (error: any) {
     console.error('Error confirming booking:', error);
+    
+    // Check if it's a unique constraint error
+    if (error?.code === 'P2002') {
+      return NextResponse.json(
+        { error: 'Booking is already confirmed' },
+        { status: 400 }
+      );
+    }
+    
     return NextResponse.json(
-      { error: 'Failed to confirm booking' },
+      { error: 'Failed to confirm booking. Please try again.' },
       { status: 500 }
     );
   }

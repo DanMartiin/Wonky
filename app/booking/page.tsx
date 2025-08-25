@@ -3,25 +3,34 @@ import BookingDetailsPanel from '@/components/BookingDetailsPanel';
 import Link from 'next/link';
 
 export default function BookingPage({ searchParams }: { searchParams: Record<string, string | string[] | undefined> }) {
-  const checkIn = typeof searchParams.checkIn === 'string' ? searchParams.checkIn : undefined;
-  const checkOut = typeof searchParams.checkOut === 'string' ? searchParams.checkOut : undefined;
+  const date = typeof searchParams.date === 'string' ? searchParams.date : undefined;
+  const checkInTime = typeof searchParams.checkInTime === 'string' ? searchParams.checkInTime : undefined;
+  const checkOutTime = typeof searchParams.checkOutTime === 'string' ? searchParams.checkOutTime : undefined;
   const guests = typeof searchParams.guests === 'string' ? Number(searchParams.guests) : undefined;
-  const time = typeof searchParams.time === 'string' ? searchParams.time : undefined;
+
+  const summary = {
+    checkIn: date,
+    checkOut: date, // Same date for single-day bookings
+    checkInTime: checkInTime,
+    checkOutTime: checkOutTime,
+    guests: guests,
+  };
 
   return (
     <main className="min-h-screen bg-[#F8F6F3]">
       <Header />
       <div className="container mx-auto px-4 py-10">
-        <div className="mb-6 flex items-center gap-2 text-xs text-gray-600">
+        {/* <div className="mb-6 flex items-center gap-2 text-xs text-gray-600">
           <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-green-700 text-white">1</span>
           <span>Booking details</span>
           <span className="mx-2 text-gray-400">•</span>
           <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-gray-200">2</span>
           <span>Confirm and Pay</span>
-        </div>
+        </div> */}
 
         <BookingDetailsPanel
-          summary={{ checkIn, checkOut, guests, time }}
+          summary={summary}
+          showSteps={true}
         />
       </div>
 

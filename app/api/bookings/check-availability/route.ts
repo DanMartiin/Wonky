@@ -37,9 +37,6 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    console.log('Existing bookings found:', existingBookings.length);
-    console.log('Date being checked:', selectedDate.toISOString().split('T')[0]);
-
     // Check for time conflicts
     const conflictingBookings = existingBookings.filter(booking => {
       const existingCheckIn = new Date(`2000-01-01T${booking.checkInTime}`);
@@ -47,14 +44,6 @@ export async function POST(request: NextRequest) {
       const newCheckIn = new Date(`2000-01-01T${checkInTime}`);
       const newCheckOut = new Date(`2000-01-01T${checkOutTime}`);
 
-      console.log('Comparing times:', {
-        existing: `${booking.checkInTime}-${booking.checkOutTime}`,
-        new: `${checkInTime}-${checkOutTime}`,
-        existingCheckIn: existingCheckIn.toTimeString(),
-        existingCheckOut: existingCheckOut.toTimeString(),
-        newCheckIn: newCheckIn.toTimeString(),
-        newCheckOut: newCheckOut.toTimeString()
-      });
 
       // Check if time ranges overlap
       const hasConflict = (
@@ -62,11 +51,9 @@ export async function POST(request: NextRequest) {
         (existingCheckIn < newCheckOut && existingCheckOut > newCheckIn)
       );
 
-      console.log('Has conflict:', hasConflict);
       return hasConflict;
     });
 
-    console.log('Conflicting bookings:', conflictingBookings.length);
 
     // Calculate total guests for conflicting time slots
     const totalConflictingGuests = conflictingBookings.reduce(

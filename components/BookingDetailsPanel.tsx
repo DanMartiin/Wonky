@@ -1,15 +1,16 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/Button';
 
 type BookingSummary = {
   checkIn?: string;
   checkOut?: string;
   guests?: number;
-  time?: string;
+  checkInTime?: string;
+  checkOutTime?: string;
 };
 
 export default function BookingDetailsPanel({
@@ -24,25 +25,82 @@ export default function BookingDetailsPanel({
   showSteps?: boolean;
 }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [checkIn, setCheckIn] = useState(summary?.checkIn || '');
-  const [checkOut, setCheckOut] = useState(summary?.checkOut || '');
-  const [time, setTime] = useState(summary?.time || '');
+  const [notes, setNotes] = useState('');
+  const [date, setDate] = useState(searchParams.get('date') || summary?.checkIn || '');
+  const [checkInTime, setCheckInTime] = useState(searchParams.get('checkInTime') || summary?.checkInTime || '');
+  const [checkOutTime, setCheckOutTime] = useState(searchParams.get('checkOutTime') || summary?.checkOutTime || '');
   const [guests, setGuests] = useState(
-    typeof summary?.guests === 'number' ? String(summary?.guests) : ''
+    searchParams.get('guests') || 
+    (typeof summary?.guests === 'number' ? String(summary?.guests) : '')
   );
+  const [loading, setLoading] = useState(false);
 
-  const proceedToPayment = () => {
-    const query = new URLSearchParams();
-    if (checkIn) query.set('checkIn', checkIn);
-    if (checkOut) query.set('checkOut', checkOut);
-    if (time) query.set('time', time);
-    if (guests) query.set('guests', guests);
-    router.push(`/booking/payment${query.toString() ? `?${query.toString()}` : ''}`);
+  // Calculate duration in hours
+  const calculateDuration = () => {
+    if (!checkInTime || !checkOutTime) return 0;
+    const checkIn = new Date(`2000-01-01T${checkInTime}`);
+    const checkOut = new Date(`2000-01-01T${checkOutTime}`);
+    const diffMs = checkOut.getTime() - checkIn.getTime();
+    return Math.ceil(diffMs / (1000 * 60 * 60)); // Convert to hours
+  };
+
+  const duration = calculateDuration();
+  const hourlyRate = 100;
+  const cleaningFee = 10;
+  const serviceFee = 10;
+  const subtotal = duration * hourlyRate;
+  const total = subtotal + cleaningFee + serviceFee;
+
+  const handleSubmit = async () => {
+    if (!firstName || !lastName || !email || !phone || !date || !checkInTime || !checkOutTime || !guests) {
+      alert('Please fill in all required fields');
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await fetch('/api/bookings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          email,
+          mobileNumber: phone,
+          notes,
+          guestCount: parseInt(guests),
+          date,
+          checkInTime,
+          checkOutTime,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Redirect to confirmation sent page
+        const params = new URLSearchParams();
+        params.set('email', email);
+        params.set('bookingId', data.bookingId);
+        router.push(`/confirmation-sent?${params.toString()}`);
+      } else {
+        alert(data.error || 'Failed to create booking');
+      }
+    } catch (error) {
+      console.error('Error creating booking:', error);
+      alert('Error creating booking. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleClear = () => {
@@ -50,10 +108,7 @@ export default function BookingDetailsPanel({
     setLastName('');
     setEmail('');
     setPhone('');
-    setCheckIn('');
-    setCheckOut('');
-    setTime('');
-    setGuests('');
+    setNotes('');
   };
 
   const isFormComplete = Boolean(
@@ -61,9 +116,9 @@ export default function BookingDetailsPanel({
     lastName &&
     email &&
     phone &&
-    checkIn &&
-    checkOut &&
-    time &&
+    date &&
+    checkInTime &&
+    checkOutTime &&
     guests
   );
 
@@ -116,6 +171,15 @@ export default function BookingDetailsPanel({
                 onChange={(e) => setPhone(e.target.value)}
               />
             </div>
+            <div className="mt-3">
+              <textarea
+                className="w-full border rounded px-3 py-2 text-sm text-gray-900 placeholder-gray-400 bg-white"
+                placeholder="Additional notes (optional)"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                rows={3}
+              />
+            </div>
           </section>
 
           <section>
@@ -125,30 +189,30 @@ export default function BookingDetailsPanel({
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <div>
-                <div className="text-gray-700 text-xs mb-1">Check In</div>
+                <div className="text-gray-700 text-xs mb-1">Date</div>
                 <input
                   className="w-full border rounded px-3 py-2 text-sm text-gray-900 placeholder-gray-400 bg-white"
                   type="date"
-                  value={checkIn}
-                  onChange={(e) => setCheckIn(e.target.value)}
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
                 />
               </div>
               <div>
-                <div className="text-gray-700 text-xs mb-1">Check Out</div>
-                <input
-                  className="w-full border rounded px-3 py-2 text-sm text-gray-900 placeholder-gray-400 bg-white"
-                  type="date"
-                  value={checkOut}
-                  onChange={(e) => setCheckOut(e.target.value)}
-                />
-              </div>
-              <div>
-                <div className="text-gray-700 text-xs mb-1">Time</div>
+                <div className="text-gray-700 text-xs mb-1">Check-in Time</div>
                 <input
                   className="w-full border rounded px-3 py-2 text-sm text-gray-900 placeholder-gray-400 bg-white"
                   type="time"
-                  value={time}
-                  onChange={(e) => setTime(e.target.value)}
+                  value={checkInTime}
+                  onChange={(e) => setCheckInTime(e.target.value)}
+                />
+              </div>
+              <div>
+                <div className="text-gray-700 text-xs mb-1">Check-out Time</div>
+                <input
+                  className="w-full border rounded px-3 py-2 text-sm text-gray-900 placeholder-gray-400 bg-white"
+                  type="time"
+                  value={checkOutTime}
+                  onChange={(e) => setCheckOutTime(e.target.value)}
                 />
               </div>
               <div>
@@ -159,58 +223,60 @@ export default function BookingDetailsPanel({
                   onChange={(e) => setGuests(e.target.value)}
                 >
                   <option value="">Select</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5+</option>
+                  {Array.from({ length: 10 }, (_, i) => i + 1).map((num) => (
+                    <option key={num} value={num}>
+                      {num} Guest{num > 1 ? 's' : ''}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
 
             <div className="mt-6 flex gap-2">
-              {onBookNow ? (
-                <Button className="bg-gray-900 text-white" onClick={onBookNow}>SUBMIT</Button>
-              ) : (
-                <Button className="bg-gray-900 text-white" onClick={proceedToPayment}>SUBMIT</Button>
-              )}
+              <Button 
+                className="bg-gray-900 text-white" 
+                onClick={handleSubmit}
+                disabled={loading || !isFormComplete}
+              >
+                {loading ? 'Creating Booking...' : 'SUBMIT'}
+              </Button>
               <Button variant="secondary" onClick={handleClear}>CLEAR</Button>
             </div>
           </section>
         </div>
 
-        {/* Right: Summary Card styled as 2x2 cards with icons */}
+        {/* Right: Summary Card */}
         <aside className="bg-white border rounded-md p-6 shadow-sm h-fit">
           <h3 className="text-base font-semibold text-gray-900 mb-4">Booking details</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
             <div className="border rounded-md p-3">
-              <div className="text-gray-700 text-xs mb-1">Check In</div>
+              <div className="text-gray-700 text-xs mb-1">Date</div>
               <div className="flex items-center gap-2 text-gray-600">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="w-4 h-4">
                   <rect x="3" y="4" width="18" height="18" rx="2" />
                   <path d="M16 2v4M8 2v4M3 10h18" />
                 </svg>
-                <span>{checkIn || 'No selected date'}</span>
+                <span>{date ? new Date(date).toLocaleDateString() : 'No selected date'}</span>
               </div>
             </div>
             <div className="border rounded-md p-3">
-              <div className="text-gray-700 text-xs mb-1">Check Out</div>
-              <div className="flex items-center gap-2 text-gray-600">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="w-4 h-4">
-                  <rect x="3" y="4" width="18" height="18" rx="2" />
-                  <path d="M16 2v4M8 2v4M3 10h18" />
-                </svg>
-                <span>{checkOut || 'No selected date'}</span>
-              </div>
-            </div>
-            <div className="border rounded-md p-3">
-              <div className="text-gray-700 text-xs mb-1">Time</div>
+              <div className="text-gray-700 text-xs mb-1">Check-in</div>
               <div className="flex items-center gap-2 text-gray-600">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="w-4 h-4">
                   <circle cx="12" cy="12" r="9" />
                   <path d="M12 7v5l3 3" />
                 </svg>
-                <span>{time || 'No selected time'}</span>
+                <span>{checkInTime || 'No selected time'}</span>
+              </div>
+            </div>
+            <div className="border rounded-md p-3">
+              <div className="text-gray-700 text-xs mb-1">Check-out</div>
+              <div className="flex items-center gap-2 text-gray-600">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="w-4 h-4">
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M12 7v5l3 3" />
+                </svg>
+                <span>{checkOutTime || 'No selected time'}</span>
               </div>
             </div>
             <div className="border rounded-md p-3">
@@ -229,47 +295,30 @@ export default function BookingDetailsPanel({
 
           {/* Payment summary */}
           {isFormComplete && (
-          <div className="mt-6 border-t pt-6">
-            <h4 className="text-sm font-semibold text-gray-900 mb-3">Payment</h4>
-            <div className="text-sm divide-y">
-              <div className="flex items-center justify-between py-2">
-                <span className="text-gray-600">$100 / hr × 2</span>
-                <span className="text-gray-900">$200</span>
+            <div className="mt-6 border-t pt-6">
+              <h4 className="text-sm font-semibold text-gray-900 mb-3">Payment</h4>
+              <div className="text-sm divide-y">
+                <div className="flex items-center justify-between py-2">
+                  <span className="text-gray-600">${hourlyRate} / hr × {duration}</span>
+                  <span className="text-gray-900">${subtotal}</span>
+                </div>
+                <div className="flex items-center justify-between py-2">
+                  <span className="text-gray-600 underline decoration-dotted">Cleaning fee</span>
+                  <span className="text-gray-900">${cleaningFee}</span>
+                </div>
+                <div className="flex items-center justify-between py-2">
+                  <span className="text-gray-600">Service fee</span>
+                  <span className="text-gray-900">${serviceFee}</span>
+                </div>
               </div>
-              <div className="flex items-center justify-between py-2">
-                <span className="text-gray-600 underline decoration-dotted">Cleaning fee</span>
-                <span className="text-gray-900">$10</span>
-              </div>
-              <div className="flex items-center justify-between py-2">
-                <span className="text-gray-600">Service fee</span>
-                <span className="text-gray-900">$10</span>
+              <div className="flex items-center justify-between mt-4 py-3 border-t">
+                <span className="text-sm font-semibold text-gray-900">Total</span>
+                <span className="text-base font-semibold text-gray-900">${total}</span>
               </div>
             </div>
-            <div className="flex items-center justify-between mt-4 py-3 border-t">
-              <span className="text-sm font-semibold text-gray-900">Total</span>
-              <span className="text-base font-semibold text-gray-900">$220</span>
-            </div>
-
-            <div className="mt-4 space-y-3">
-              <button
-                className="w-full border rounded px-4 py-2 text-sm"
-                onClick={proceedToPayment}
-              >
-                BOOK NOW
-              </button>
-              <button
-                className="w-full border rounded px-4 py-2 text-sm"
-                onClick={() => router.push('/')}
-              >
-                CANCEL
-              </button>
-            </div>
-          </div>
           )}
         </aside>
       </div>
     </div>
   );
 }
-
-
