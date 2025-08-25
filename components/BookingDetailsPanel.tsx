@@ -1,8 +1,6 @@
 'use client';
-
-import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 
 type BookingSummary = {
@@ -15,13 +13,9 @@ type BookingSummary = {
 
 export default function BookingDetailsPanel({
   summary,
-  onBookNow,
-  onCancel,
   showSteps = true,
 }: {
   summary: BookingSummary;
-  onBookNow?: () => void;
-  onCancel?: () => void;
   showSteps?: boolean;
 }) {
   const router = useRouter();
@@ -292,31 +286,6 @@ export default function BookingDetailsPanel({
               </div>
             </div>
           </div>
-
-          {/* Payment summary */}
-          {isFormComplete && (
-            <div className="mt-6 border-t pt-6">
-              <h4 className="text-sm font-semibold text-gray-900 mb-3">Payment</h4>
-              <div className="text-sm divide-y">
-                <div className="flex items-center justify-between py-2">
-                  <span className="text-gray-600">${hourlyRate} / hr × {duration}</span>
-                  <span className="text-gray-900">${subtotal}</span>
-                </div>
-                <div className="flex items-center justify-between py-2">
-                  <span className="text-gray-600 underline decoration-dotted">Cleaning fee</span>
-                  <span className="text-gray-900">${cleaningFee}</span>
-                </div>
-                <div className="flex items-center justify-between py-2">
-                  <span className="text-gray-600">Service fee</span>
-                  <span className="text-gray-900">${serviceFee}</span>
-                </div>
-              </div>
-              <div className="flex items-center justify-between mt-4 py-3 border-t">
-                <span className="text-sm font-semibold text-gray-900">Total</span>
-                <span className="text-base font-semibold text-gray-900">${total}</span>
-              </div>
-            </div>
-          )}
         </aside>
       </div>
     </div>
