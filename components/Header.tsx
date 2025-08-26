@@ -2,16 +2,16 @@ import Link from 'next/link';
 
 export default function Header() {
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-transparent">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-sm">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <div className="text-white font-thin text-xl font-poppins tracking-[.24em]">
-            wonky walden
+          <div className="text-white font-bold text-xl">
+            MONKY WALDEN
           </div>
           
           {/* Contact Info */}
-          <div className="hidden md:flex items-center space-x-6 text-white text-sm font-poppins">
+          <div className="hidden md:flex items-center space-x-6 text-white text-sm">
             <a href="mailto:business@wonkymalden.com" className="hover:text-green-300 transition-colors">
               business@wonkymalden.com
             </a>
@@ -21,7 +21,7 @@ export default function Header() {
           </div>
           
           {/* Navigation */}
-          <div className="flex items-center space-x-4 font-poppins">
+          <div className="flex items-center space-x-4">
             <Link 
               href="/signup" 
               className="text-white hover:text-green-300 transition-colors text-sm"

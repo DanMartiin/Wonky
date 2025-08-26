@@ -1,9 +1,4 @@
 {
   "/page": "app/page.js",
-  "/booking/page": "app/booking/page.js",
-  "/api/bookings/route": "app/api/bookings/route.js",
-  "/confirmation-sent/page": "app/confirmation-sent/page.js",
-  "/confirm-booking/page": "app/confirm-booking/page.js",
-  "/api/bookings/check-availability/route": "app/api/bookings/check-availability/route.js",
-  "/api/bookings/confirm/route": "app/api/bookings/confirm/route.js"
+  "/booking/page": "app/booking/page.js"
 }
