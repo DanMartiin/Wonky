@@ -2,7 +2,8 @@
 import { useState } from 'react';
 import Header from '@/components/Header';
 import BookingInterface from '@/components/BookingInterface';
-import BookingFlow from '@/components/BookingFlow';
+import Welcome from '@/components/Welcome';
+import Amenities from '@/components/Amenities';
 import Footer from '../components/Footer';
 
 export default function Home() {
@@ -54,55 +55,11 @@ export default function Home() {
         </div>
       </section>
       
-      {/* Welcome / Amenities */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-10 items-start">
-            {/* Images */}
-            <div className="grid grid-cols-2 gap-4 order-2 lg:order-1">
-              <div className="col-span-1">
-                <div className="w-full h-56 md:h-72 rounded-md overflow-hidden bg-gray-200"></div>
-              </div>
-              <div className="col-span-1 row-span-2">
-                <div className="w-full h-72 md:h-[420px] rounded-md overflow-hidden bg-[url('/images/BG_image.png')] bg-cover bg-center"></div>
-              </div>
-              <div className="col-span-1">
-                <div className="w-full h-56 md:h-72 rounded-md overflow-hidden bg-gray-300"></div>
-              </div>
-            </div>
+      {/* Welcome Section */}
+      <Welcome />
 
-            {/* Copy */}
-            <div className="order-1 lg:order-2">
-              <div className="uppercase tracking-wider text-xs text-gray-500 mb-2">Welcome to</div>
-              <h2 className="text-3xl md:text-4xl font-semibold text-[#1f2e1a] mb-4">Wonky Walden Book Nook</h2>
-              <p className="text-sm text-gray-600 mb-3">Corem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit.</p>
-              <p className="text-sm text-gray-600 mb-6">Corem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est, a mattis tellus.</p>
-
-              <div className="flex flex-wrap gap-3 mb-8">
-                {[
-                  'The entire place is yours',
-                  'Air conditioning',
-                  'Non-smoking rooms',
-                  '40 m2 size',
-                  'Free on-site parking',
-                  'Balcony',
-                  'Free WiFi',
-                  'Fully equipped kitchen',
-                  'Washing machine & dryer',
-                  'Private bathroom',
-                ].map((label) => (
-                  <span key={label} className="inline-flex items-center gap-2 rounded-full bg-[#F3EEE7] px-3 py-1.5 text-[11px] text-gray-700">
-                    <span className="w-2 h-2 rounded-full bg-[#4D6443]"></span>
-                    {label}
-                  </span>
-                ))}
-              </div>
-
-              <a href="#booking" className="inline-block text-[12px] tracking-wider border px-5 py-2 rounded">RESERVE NOW</a>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Amenities Section */}
+      <Amenities />
 
       {/* Rules and Regulations */}
       <section className="py-16 bg-white">
@@ -240,7 +197,6 @@ export default function Home() {
       
       <Footer />
       {/* Booking Flow appended below existing content */}
-      <BookingFlow />
     </main>
   );
 }
