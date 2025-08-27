@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import BookingInterface from '@/components/BookingInterface';
 import Welcome from '@/components/Welcome';
 import Amenities from '@/components/Amenities';
+import RulesRegulations from '@/components/RulesRegulations';
 import Footer from '../components/Footer';
 
 export default function Home() {
@@ -62,34 +63,7 @@ export default function Home() {
       <Amenities />
 
       {/* Rules and Regulations */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <h3 className="text-2xl font-semibold text-center mb-8">Rules and Regulations</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {[
-              'No smoking in the premise',
-              'Please turn off the AC when you go out',
-              'Please respect check in & check out times',
-              'Take care of your keys',
-              "Please don't rearrange the furniture",
-              'No unregistered guests allowed',
-              'Please respect the noise curfew',
-              'Please do not litter and use trash can',
-              'Handle furnishings with care',
-              'No alcohol and illegal drugs',
-              'Admire the trees — no picking or climbing',
-              'Secure valuables; host not responsible',
-            ].map((text, i) => (
-              <div key={i} className="rounded-md p-5 bg-[#112921] text-white flex flex-col items-center justify-center text-center min-h-[140px]">
-                <div className="w-10 h-10 mb-3 rounded-full bg-white/10 flex items-center justify-center">
-                  <div className="w-5 h-5 rounded-full bg-white/30"></div>
-                </div>
-                <div className="text-[11px] leading-snug opacity-95">{text}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <RulesRegulations />
 
       {/* Location & Maps */}
       <section className="bg-[#F3EEE7] py-14 mt-4">
@@ -196,7 +170,6 @@ export default function Home() {
       </section>
       
       <Footer />
-      {/* Booking Flow appended below existing content */}
     </main>
   );
 }
