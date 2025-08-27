@@ -1,4 +1,4 @@
-# Wonky Malden Book Nook
+# Wonky Walden Book Nook
 
 A full-stack booking application for a cozy reading nook, built with Next.js, TypeScript, and TailwindCSS.
 
