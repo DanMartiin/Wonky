@@ -1,6 +1,6 @@
 export default function MapLocation() {
     return (
-      <section className="bg-[#F3EEE7] py-14 mt-4">
+      <section className="bg-[#F3EEE7] py-14">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
             <div className="bg-white rounded-md p-6 shadow-sm flex flex-col justify-between">

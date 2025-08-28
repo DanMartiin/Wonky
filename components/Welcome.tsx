@@ -33,7 +33,7 @@ export default function Welcome() {
               <p className="text-sm text-gray-600 mb-3">Corem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit.</p>
               <p className="text-sm text-gray-600 mb-6">Corem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est, a mattis tellus.</p>
 
-              <a href="#booking" className="inline-block text-[12px] tracking-wider border px-5 py-2 rounded">RESERVE NOW</a>
+              <a href="#booking" className="inline-block text-[12px] tracking-wider border border-black text-black px-5 py-2 rounded hover:bg-gray-100">RESERVE NOW</a>
             </div>
           </div>
         </div>
