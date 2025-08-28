@@ -81,17 +81,17 @@ export default function RulesRegulations() {
     <section className="py-16 bg-white">
       <div className="container mx-auto px-4 max-w-[960px]">
         <h3 className="text-2xl font-semibold text-center mb-8">Rules and Regulations</h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-x-2 gap-y-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
           {rules.map((rule, i) => {
             const IconComponent = rule.icon;
             return (
               <div 
                 key={i} 
-                className="p-5 text-white flex flex-col items-center justify-center text-center md:max-h-[234px] md:max-w-[234px] md:min-h-[234px] md:min-w-[234px]:"
+                className="p-5 text-white flex flex-col items-center justify-center text-center rounded-md"
                 style={{ backgroundColor: rule.color }}
               >
                 <div className="w-10 h-10 mb-3 flex items-center justify-center">
-                  <IconComponent className="text-white md:w-[141.83px] md:h-[141.83px]" />
+                  <IconComponent className="text-white w-10 h-10 md:w-[141.83px] md:h-[141.83px]" />
                 </div>
                 <div className="text-[11px] leading-snug opacity-95">{rule.text}</div>
               </div>
