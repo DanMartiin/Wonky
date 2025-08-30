@@ -25,7 +25,7 @@ export default function Home() {
             backgroundImage: "url('/images/BG_image.png')"
           }}
         >
-          <div className="absolute inset-0 bg-black/30"></div>
+          <div className="absolute inset-0 bg-[#4D6443]/[.53]"></div>
         </div>
         
         {/* Content */}

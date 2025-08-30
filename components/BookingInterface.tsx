@@ -90,7 +90,23 @@ export default function BookingInterface() {
 
   return (
     <div className="space-y-4">
-      {/* Main Booking Interface */}
+      {/* Headings above booking interface */}
+      <div className="max-w-[1024px] w-full mx-auto text-center">
+        <h1
+          className="font-figtree font-normal text-white text-4xl md:text-[56px] leading-tight tracking-[0.44em] mx-auto"
+          style={{ fontFamily: 'Figtree, sans-serif' }}
+        >
+          WONKY WALDEN
+        </h1>
+        <h2
+          className="font-birthstone font-normal text-white text-6xl md:text-[120px] leading-none mt-2 mx-auto"
+          style={{ fontFamily: 'Birthstone, cursive' }}
+        >
+          BOOK NOOK
+        </h2>
+      </div>
+      {/* Main Booking Interface */
+      }
       <div className="bg-[#112921] backdrop-blur-sm rounded-lg shadow-xl max-w-6xl mx-auto overflow-hidden">
         <div className="grid grid-cols-1 md:grid-cols-5 items-center">
           {/* DATE Section */}

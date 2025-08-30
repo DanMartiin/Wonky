@@ -1,9 +1,24 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Inter, Poppins, Figtree, Birthstone } from 'next/font/google';
 import './globals.css';
 import { Toaster } from 'react-hot-toast';
 
 const inter = Inter({ subsets: ['latin'] });
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['400'],
+  variable: '--font-poppins',
+});
+const figtree = Figtree({
+  subsets: ['latin'],
+  weight: ['400'],
+  variable: '--font-figtree',
+});
+const birthstone = Birthstone({
+  subsets: ['latin'],
+  weight: ['400'],
+  variable: '--font-birthstone',
+});
 
 export const metadata: Metadata = {
   title: 'Wonky Walden Book Nook',
@@ -20,7 +35,7 @@ export default function RootLayout({
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
-      <body className={inter.className}>
+      <body className={`${inter.className} ${poppins.variable} ${figtree.variable} ${birthstone.variable}`}>
         {children}
         <Toaster
           position="top-right"
