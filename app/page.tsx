@@ -25,10 +25,6 @@ export default function Home() {
             backgroundImage: "url('/images/BG_image.png')"
           }}
         >
-          <div
-            className="absolute inset-0"
-            style={{ backgroundColor: 'rgba(77, 100, 67, 0.53)' }}
-          ></div>
         </div>
         
         {/* Content */}
@@ -46,9 +42,6 @@ export default function Home() {
             >
               Book Nook
             </h2>
-            <p className="text-base sm:text-lg md:text-xl text-white/90 max-w-2xl mx-auto">
-              Escape to our cozy reading sanctuary nestled in nature's embrace
-            </p>
           </div>
           
           {/* Booking Interface */}

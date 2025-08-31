@@ -8,7 +8,12 @@ export default function CTA() {
             backgroundImage: "url('/images/Rectangle 55.png')"
           }}
         />
-        <div className="absolute inset-0 bg-[#112921]/80" />
+        <div
+          className="absolute inset-0"
+          style={{
+            background: 'linear-gradient(to right, rgba(77, 100, 67, 0.63) 0%, #112921 100%)'
+          }}
+        />
       </div>
       <div className="relative container mx-auto px-4 py-24 text-center text-white">
         <h3 className="text-2xl md:text-3xl font-semibold mb-3">
