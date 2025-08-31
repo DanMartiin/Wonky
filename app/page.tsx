@@ -25,7 +25,10 @@ export default function Home() {
             backgroundImage: "url('/images/BG_image.png')"
           }}
         >
-          <div className="absolute inset-0 bg-black/30"></div>
+          <div
+            className="absolute inset-0"
+            style={{ backgroundColor: 'rgba(77, 100, 67, 0.53)' }}
+          ></div>
         </div>
         
         {/* Content */}
