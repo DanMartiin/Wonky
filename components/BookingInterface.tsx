@@ -91,10 +91,10 @@ export default function BookingInterface() {
   return (
     <div className="space-y-4">
       {/* Main Booking Interface */}
-      <div className="bg-[#112921] backdrop-blur-sm rounded-lg shadow-xl max-w-6xl mx-auto overflow-hidden">
-        <div className="grid grid-cols-1 md:grid-cols-5 items-center">
+      <div className="bg-[#112921] max-w-[1010px] h-[89px] mx-auto rounded-l-lg">
+        <div className="grid grid-cols-1 md:grid-cols-5 items-stretch">
           {/* DATE Section */}
-          <div className="md:col-span-1 p-8">
+          <div className="md:col-span-1 px-8 flex flex-col justify-center h-[89px]">
             <div className="flex items-center space-x-3 text-white">
               <CalendarDays />
               <span className="text-sm uppercase tracking-wide font-nunito">DATE</span>
@@ -108,7 +108,7 @@ export default function BookingInterface() {
           </div>
 
           {/* CHECK-IN TIME Section */}
-          <div className="md:col-span-1 p-8">
+          <div className="md:col-span-1 px-8 flex flex-col justify-center h-[89px]">
             <div className="flex items-center space-x-3 text-white">
               <Clock />
               <span className="text-sm uppercase tracking-wide font-nunito">CHECK-IN</span>
@@ -122,7 +122,7 @@ export default function BookingInterface() {
           </div>
 
           {/* CHECK-OUT TIME Section */}
-          <div className="md:col-span-1 p-8">
+          <div className="md:col-span-1 px-8 flex flex-col justify-center h-[89px]">
             <div className="flex items-center space-x-3 text-white">
               <Clock />
               <span className="text-sm uppercase tracking-wide font-nunito">CHECK-OUT</span>
@@ -136,7 +136,7 @@ export default function BookingInterface() {
           </div>
 
           {/* GUESTS Section */}
-          <div className="md:col-span-1 p-8">
+          <div className="md:col-span-1 px-8 flex flex-col justify-center h-[89px] border-r border-white/20">
             <div className="flex items-center space-x-3 text-white">
               <Users />
               <span className="text-sm uppercase tracking-wide font-nunito">GUESTS</span>
@@ -147,11 +147,11 @@ export default function BookingInterface() {
           </div>
 
           {/* CHECK AVAILABILITY Button */}
-          <div className="md:col-span-1 h-full">
+          <div className="md:col-span-1 h-[89px]">
             <Button
               onClick={handleCheckAvailability}
               disabled={loading}
-              className="w-full h-full bg-[#E9F3F3] text-[#112921] hover:bg-[#BBBBBB] font-bold py-6 px-8 text-sm uppercase tracking-[0.24em] flex items-center justify-center rounded-none font-nunito disabled:opacity-50"
+              className="w-full h-full bg-[#E9F3F3] text-[#112921] hover:bg-[#BBBBBB] font-bold px-8 text-sm uppercase tracking-[0.24em] flex items-center justify-center rounded-r-lg font-nunito disabled:opacity-50"
             >
               {loading ? 'Checking...' : 'check availability'}
             </Button>

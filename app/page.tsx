@@ -32,13 +32,11 @@ export default function Home() {
           <div className="text-center mb-12">
             <h1
               className="text-[56px] md:text-[56px] sm:text-4xl font-normal text-white tracking-[0.44em] font-figtree"
-              style={{ fontFamily: 'Figtree, sans-serif' }}
             >
               WONKY WALDEN
             </h1>
             <h2
               className="text-[64px] sm:text-[80px] md:text-[120px] font-normal text-white tracking-[0em] font-birthstone"
-              style={{ fontFamily: 'Birthstone, cursive' }}
             >
               Book Nook
             </h2>
