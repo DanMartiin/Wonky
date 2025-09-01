@@ -80,7 +80,7 @@ export default function RulesRegulations() {
   return (
     <section className="py-16 bg-white">
       <div className="container mx-auto px-4 max-w-[960px]">
-        <h3 className="text-2xl font-semibold text-center mb-8">Rules and Regulations</h3>
+        <h3 className="text-2xl font-semibold text-center mb-8 text-black">Rules and Regulations</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
           {rules.map((rule, i) => {
             const IconComponent = rule.icon;

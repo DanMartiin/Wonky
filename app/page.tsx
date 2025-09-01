@@ -13,37 +13,36 @@ import CTA from '@/components/CTA';
 
 export default function Home() {
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen overflow-x-hidden">
       <Header />
       
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center">
+      <section className="relative min-h-screen flex items-center justify-center pt-16 sm:pt-20">
         {/* Background Image */}
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
             backgroundImage: "url('/images/BG_image.png')"
           }}
-        >
-        </div>
+        />
         
         {/* Content */}
-        <div className="relative z-10 container mx-auto px-4">
-          <div className="text-center mb-12">
+        <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+          <div className="text-center mb-8 sm:mb-12">
             <h1
-              className="text-[56px] md:text-[56px] sm:text-4xl font-normal text-white tracking-[0.44em] font-figtree"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-[56px] font-normal text-white tracking-[0.2em] sm:tracking-[0.3em] md:tracking-[0.44em] font-figtree leading-tight"
             >
               WONKY WALDEN
             </h1>
             <h2
-              className="text-[64px] sm:text-[80px] md:text-[120px] font-normal text-white tracking-[0em] font-birthstone"
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl xl:text-[120px] font-normal text-white tracking-[0em] font-birthstone leading-tight mt-2 sm:mt-4"
             >
               Book Nook
             </h2>
           </div>
           
           {/* Booking Interface */}
-          <div className="w-full">
+          <div className="w-full max-w-4xl mx-auto">
             <BookingInterface />
           </div>
         </div>

@@ -44,8 +44,7 @@ export default function Welcome() {
               <h2 className="text-2xl md:text-4xl font-semibold text-[#1f2e1a] mb-4 border-b border-gray-300 pb-2">Wonky Walden Book Nook</h2>
               <p className="text-sm text-gray-600 mb-3">Corem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit.</p>
               <p className="text-sm text-gray-600 mb-6">Corem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est, a mattis tellus.</p>
-
-              <a href="#booking" className="inline-block text-[12px] tracking-wider border border-black text-black px-5 py-2 rounded hover:bg-gray-100">RESERVE NOW</a>
+              
             </div>
           </div>
         </div>

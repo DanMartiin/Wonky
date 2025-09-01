@@ -11,6 +11,7 @@ export default function BookingInterface() {
   const [guests, setGuests] = useState('');
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showTimePickers, setShowTimePickers] = useState(false);
+  const [showGuestPicker, setShowGuestPicker] = useState(false);
   const [loading, setLoading] = useState(false);
   const [availability, setAvailability] = useState<any>(null);
 
@@ -91,16 +92,16 @@ export default function BookingInterface() {
   return (
     <div className="space-y-4">
       {/* Main Booking Interface */}
-      <div className="bg-[#112921] max-w-[1010px] h-[89px] mx-auto rounded-l-lg">
+      <div className="bg-[#112921] max-w-[1010px] mx-auto rounded-lg overflow-hidden">
         <div className="grid grid-cols-1 md:grid-cols-5 items-stretch">
           {/* DATE Section */}
-          <div className="md:col-span-1 px-8 flex flex-col justify-center h-[89px]">
-            <div className="flex items-center space-x-3 text-white">
-              <CalendarDays />
-              <span className="text-sm uppercase tracking-wide font-nunito">DATE</span>
+          <div className="md:col-span-1 px-6 py-3 md:px-8 md:py-0 flex flex-col justify-center md:h-[89px] border-b border-white/10 md:border-b-0">
+            <div className="flex items-center gap-2 md:gap-3 text-white">
+              <CalendarDays className="w-4 h-4 md:w-5 md:h-5" />
+              <span className="text-xs sm:text-sm uppercase tracking-wide font-nunito">DATE</span>
             </div>
             <div 
-              className="text-white/70 text-sm ml-9 font-nunito cursor-pointer hover:text-white transition-colors"
+              className="text-white/70 text-xs sm:text-sm ml-7 md:ml-9 font-nunito cursor-pointer hover:text-white transition-colors"
               onClick={() => setShowDatePicker(!showDatePicker)}
             >
               {selectedDate ? new Date(selectedDate).toLocaleDateString() : 'Select Date'}
@@ -108,13 +109,13 @@ export default function BookingInterface() {
           </div>
 
           {/* CHECK-IN TIME Section */}
-          <div className="md:col-span-1 px-8 flex flex-col justify-center h-[89px]">
-            <div className="flex items-center space-x-3 text-white">
-              <Clock />
-              <span className="text-sm uppercase tracking-wide font-nunito">CHECK-IN</span>
+          <div className="md:col-span-1 px-6 py-3 md:px-8 md:py-0 flex flex-col justify-center md:h-[89px] border-b border-white/10 md:border-b-0">
+            <div className="flex items-center gap-2 md:gap-3 text-white">
+              <Clock className="w-4 h-4 md:w-5 md:h-5" />
+              <span className="text-xs sm:text-sm uppercase tracking-wide font-nunito">CHECK-IN</span>
             </div>
             <div 
-              className="text-white/70 text-sm ml-9 font-nunito cursor-pointer hover:text-white transition-colors"
+              className="text-white/70 text-xs sm:text-sm ml-7 md:ml-9 font-nunito cursor-pointer hover:text-white transition-colors"
               onClick={() => setShowTimePickers(!showTimePickers)}
             >
               {checkInTime || 'Select Time'}
@@ -122,13 +123,13 @@ export default function BookingInterface() {
           </div>
 
           {/* CHECK-OUT TIME Section */}
-          <div className="md:col-span-1 px-8 flex flex-col justify-center h-[89px]">
-            <div className="flex items-center space-x-3 text-white">
-              <Clock />
-              <span className="text-sm uppercase tracking-wide font-nunito">CHECK-OUT</span>
+          <div className="md:col-span-1 px-6 py-3 md:px-8 md:py-0 flex flex-col justify-center md:h-[89px] border-b border-white/10 md:border-b-0">
+            <div className="flex items-center gap-2 md:gap-3 text-white">
+              <Clock className="w-4 h-4 md:w-5 md:h-5" />
+              <span className="text-xs sm:text-sm uppercase tracking-wide font-nunito">CHECK-OUT</span>
             </div>
             <div 
-              className="text-white/70 text-sm ml-9 font-nunito cursor-pointer hover:text-white transition-colors"
+              className="text-white/70 text-xs sm:text-sm ml-7 md:ml-9 font-nunito cursor-pointer hover:text-white transition-colors"
               onClick={() => setShowTimePickers(!showTimePickers)}
             >
               {checkOutTime || 'Select Time'}
@@ -136,22 +137,22 @@ export default function BookingInterface() {
           </div>
 
           {/* GUESTS Section */}
-          <div className="md:col-span-1 px-8 flex flex-col justify-center h-[89px] border-r border-white/20">
-            <div className="flex items-center space-x-3 text-white">
-              <Users />
-              <span className="text-sm uppercase tracking-wide font-nunito">GUESTS</span>
+          <div className="md:col-span-1 px-6 py-3 md:px-8 md:py-0 flex flex-col justify-center md:h-[89px] md:border-r border-white/20">
+            <div className="flex items-center gap-2 md:gap-3 text-white">
+              <Users className="w-4 h-4 md:w-5 md:h-5" />
+              <span className="text-xs sm:text-sm uppercase tracking-wide font-nunito">GUESTS</span>
             </div>
-            <div className="text-white/70 text-sm ml-9 font-nunito">
+            <div className="text-white/70 text-xs sm:text-sm ml-7 md:ml-9 font-nunito">
               {guests ? `${guests} Guest${parseInt(guests) > 1 ? 's' : ''}` : 'Select number of guest'}
             </div>
           </div>
 
           {/* CHECK AVAILABILITY Button */}
-          <div className="md:col-span-1 h-[89px]">
+          <div className="md:col-span-1">
             <Button
               onClick={handleCheckAvailability}
               disabled={loading}
-              className="w-full h-full bg-[#E9F3F3] text-[#112921] hover:bg-[#BBBBBB] font-bold px-8 text-sm uppercase tracking-[0.24em] flex items-center justify-center rounded-r-lg font-nunito disabled:opacity-50"
+              className="w-full h-12 md:h-[89px] bg-[#E9F3F3] text-[#112921] hover:bg-[#BBBBBB] font-bold px-6 md:px-8 text-xs sm:text-sm uppercase tracking-[0.18em] sm:tracking-[0.24em] flex items-center justify-center rounded-none md:rounded-r-lg font-nunito disabled:opacity-50"
             >
               {loading ? 'Checking...' : 'check availability'}
             </Button>
@@ -183,89 +184,32 @@ export default function BookingInterface() {
         </div>
       )}
 
-      {/* Time and Guest Selection Modal */}
-      {showTimePickers && (
+      {/* Guest Selection Modal */}
+      {showGuestPicker && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-2xl w-full mx-4 max-h-[80vh] overflow-y-auto text-black">
-            <h3 className="text-lg font-semibold mb-4">Select Times & Guests</h3>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Check-in Time */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Check-in Time
-                </label>
-                <select
-                  value={checkInTime}
-                  onChange={(e) => setCheckInTime(e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                >
-                  <option value="">Select time</option>
-                  {timeSlots.map((time) => (
-                    <option key={time} value={time}>
-                      {new Date(`2000-01-01T${time}`).toLocaleTimeString([], { 
-                        hour: '2-digit', 
-                        minute: '2-digit' 
-                      })}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Check-out Time */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Check-out Time
-                </label>
-                <select
-                  value={checkOutTime}
-                  onChange={(e) => setCheckOutTime(e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                >
-                  <option value="">Select time</option>
-                  {timeSlots.map((time) => (
-                    <option key={time} value={time}>
-                      {new Date(`2000-01-01T${time}`).toLocaleTimeString([], { 
-                        hour: '2-digit', 
-                        minute: '2-digit' 
-                      })}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Guests */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Number of Guests
-                </label>
-                <select
-                  value={guests}
-                  onChange={(e) => setGuests(e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                >
-                  <option value="">Select guests</option>
-                  {guestOptions.map((num) => (
-                    <option key={num} value={num}>
-                      {num} Guest{num > 1 ? 's' : ''}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            <div className="flex justify-end mt-6 space-x-3">
+          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4 text-black">
+            <h3 className="text-lg font-semibold mb-4">Select Number of Guests</h3>
+            <select
+              value={guests}
+              onChange={(e) => {
+                setGuests(e.target.value);
+                setShowGuestPicker(false);
+              }}
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+            >
+              <option value="">Select guests</option>
+              {guestOptions.map((num) => (
+                <option key={num} value={num}>
+                  {num} Guest{num > 1 ? 's' : ''}
+                </option>
+              ))}
+            </select>
+            <div className="flex justify-end mt-4">
               <button
-                onClick={() => setShowTimePickers(false)}
+                onClick={() => setShowGuestPicker(false)}
                 className="px-4 py-2 text-gray-600 hover:text-gray-800"
               >
                 Cancel
-              </button>
-              <button
-                onClick={() => setShowTimePickers(false)}
-                className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
-              >
-                Confirm
               </button>
             </div>
           </div>
@@ -274,7 +218,7 @@ export default function BookingInterface() {
 
       {/* Availability Result */}
       {availability && (
-        <div className="max-w-6xl mx-auto mt-4">
+        <div className="max-w-6xl mx-auto mt-4 px-4 sm:px-0">
           <div className={`rounded-lg p-6 shadow-lg ${
             availability.available 
               ? 'bg-green-50 border border-green-200' 
@@ -304,7 +248,7 @@ export default function BookingInterface() {
             </p>
 
             {availability.available && (
-              <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex flex-col sm:flex-row gap-3 mt-4">
                 <Button
                   onClick={handleBookNow}
                   className="bg-green-600 text-white hover:bg-green-700 font-bold py-3 px-6 rounded"
