@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function CTA() {
   return (
     <section className="relative">
@@ -23,9 +25,9 @@ export default function CTA() {
           Corem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus.
           Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit.
         </p>
-        <a href="#booking" className="inline-block border px-5 py-2 rounded text-sm">
+        <Link href="/booking" className="inline-block border px-5 py-2 rounded text-sm">
           BOOK NOW
-        </a>
+        </Link>
       </div>
     </section>
   );

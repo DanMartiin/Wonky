@@ -30,7 +30,7 @@ export default function Home() {
         <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
           <div className="text-center mb-8 sm:mb-12">
             <h1
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-[56px] font-normal text-white tracking-[0.2em] sm:tracking-[0.3em] md:tracking-[0.44em] font-figtree leading-tight"
+              className="text-3xl md:text-4xl lg:text-5xl xl:text-[56px] font-normal text-white tracking-[0.2em] sm:tracking-[0.3em] md:tracking-[0.44em] font-figtree leading-tight"
             >
               WONKY WALDEN
             </h1>

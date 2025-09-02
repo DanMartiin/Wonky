@@ -17,8 +17,8 @@ export default function BookingInterface() {
 
   const handleDateSelect = (date: string) => {
     setSelectedDate(date);
-    setShowDatePicker(false);
-    setShowTimePickers(true);
+    // Don't automatically close the date picker or open time picker
+    // Let the user manually close it
   };
 
   const handleCheckAvailability = async () => {
@@ -33,6 +33,20 @@ export default function BookingInterface() {
     
     if (checkOut <= checkIn) {
       alert('Check-out time must be after check-in time');
+      return;
+    }
+
+    // Validate 2-hour limit
+    const timeDifference = checkOut.getTime() - checkIn.getTime();
+    const hoursDifference = timeDifference / (1000 * 60 * 60);
+    
+    if (hoursDifference > 2) {
+      alert('Bookings are limited to a maximum of 2 hours');
+      return;
+    }
+
+    if (hoursDifference < 1) {
+      alert('Bookings must be at least 1 hour');
       return;
     }
 
@@ -81,18 +95,16 @@ export default function BookingInterface() {
   };
 
   const timeSlots = [
-    '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30',
-    '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30',
-    '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00', '19:30',
-    '20:00', '20:30', '21:00', '21:30', '22:00'
+    '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', 
+    '16:00', '17:00', '18:00', '19:00', '20:00'
   ];
 
   const guestOptions = Array.from({ length: 10 }, (_, i) => i + 1);
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 justify-items-center">
       {/* Main Booking Interface */}
-      <div className="bg-[#112921] max-w-[1010px] mx-auto rounded-lg overflow-hidden">
+      <div className="bg-[#112921] md:min-w-[1010px] rounded-lg overflow-hidden">
         <div className="grid grid-cols-1 md:grid-cols-5 items-stretch">
           {/* DATE Section */}
           <div className="md:col-span-1 px-6 py-3 md:px-8 md:py-0 flex flex-col justify-center md:h-[89px] border-b border-white/10 md:border-b-0">
@@ -142,7 +154,10 @@ export default function BookingInterface() {
               <Users className="w-4 h-4 md:w-5 md:h-5" />
               <span className="text-xs sm:text-sm uppercase tracking-wide font-nunito">GUESTS</span>
             </div>
-            <div className="text-white/70 text-xs sm:text-sm ml-7 md:ml-9 font-nunito">
+            <div 
+              className="text-white/70 text-xs sm:text-sm ml-7 md:ml-9 font-nunito cursor-pointer hover:text-white transition-colors"
+              onClick={() => setShowGuestPicker(!showGuestPicker)}
+            >
               {guests ? `${guests} Guest${parseInt(guests) > 1 ? 's' : ''}` : 'Select number of guest'}
             </div>
           </div>
@@ -151,8 +166,8 @@ export default function BookingInterface() {
           <div className="md:col-span-1">
             <Button
               onClick={handleCheckAvailability}
-              disabled={loading}
-              className="w-full h-12 md:h-[89px] bg-[#E9F3F3] text-[#112921] hover:bg-[#BBBBBB] font-bold px-6 md:px-8 text-xs sm:text-sm uppercase tracking-[0.18em] sm:tracking-[0.24em] flex items-center justify-center rounded-none md:rounded-r-lg font-nunito disabled:opacity-50"
+              disabled={loading || !selectedDate || !checkInTime || !checkOutTime || !guests}
+              className="w-full h-12 md:h-[89px] bg-[#E9F3F3] text-[#112921] hover:bg-[#BBBBBB] font-bold px-6 md:px-8 text-xs sm:text-sm uppercase tracking-[0.18em] sm:tracking-[0.24em] flex items-center justify-center rounded-none md:rounded-r-lg font-nunito disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? 'Checking...' : 'check availability'}
             </Button>
@@ -168,11 +183,17 @@ export default function BookingInterface() {
             <input
               type="date"
               value={selectedDate}
-              onChange={(e) => handleDateSelect(e.target.value)}
+              onChange={(e) => setSelectedDate(e.target.value)}
               min={new Date().toISOString().split('T')[0]}
               className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
             />
             <div className="flex justify-end mt-4">
+              <button
+                onClick={() => setShowDatePicker(false)}
+                className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+              >
+                Confirm
+              </button>
               <button
                 onClick={() => setShowDatePicker(false)}
                 className="px-4 py-2 text-gray-600 hover:text-gray-800"
@@ -210,6 +231,99 @@ export default function BookingInterface() {
                 className="px-4 py-2 text-gray-600 hover:text-gray-800"
               >
                 Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Time Picker Modal */}
+      {showTimePickers && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4 text-black">
+            <h3 className="text-lg font-semibold mb-4">Select Times (Max 2 hours)</h3>
+            
+            {/* Check-in Time */}
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2">Check-in Time</label>
+              <select
+                value={checkInTime}
+                onChange={(e) => {
+                  setCheckInTime(e.target.value);
+                  // Reset check-out time when check-in changes to prevent invalid combinations
+                  if (checkOutTime && e.target.value >= checkOutTime) {
+                    setCheckOutTime('');
+                  }
+                }}
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+              >
+                <option value="">Select check-in time</option>
+                {timeSlots.map((time) => (
+                  <option key={time} value={time}>
+                    {time}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Check-out Time */}
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2">Check-out Time (Max 2 hours from check-in)</label>
+              <select
+                value={checkOutTime}
+                onChange={(e) => setCheckOutTime(e.target.value)}
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+              >
+                <option value="">Select check-out time</option>
+                {timeSlots.map((time) => {
+                  // Only show times that are within 2 hours of check-in time
+                  if (checkInTime) {
+                    const checkIn = new Date(`2000-01-01T${checkInTime}`);
+                    const checkOut = new Date(`2000-01-01T${time}`);
+                    const timeDifference = checkOut.getTime() - checkIn.getTime();
+                    const hoursDifference = timeDifference / (1000 * 60 * 60);
+                    
+                    // Only show times that are after check-in and within 2 hours
+                    if (time > checkInTime && hoursDifference <= 2) {
+                      return (
+                        <option key={time} value={time}>
+                          {time} ({hoursDifference}h)
+                        </option>
+                      );
+                    }
+                  }
+                  return null;
+                })}
+              </select>
+            </div>
+
+            {/* Time validation message */}
+            {checkInTime && checkOutTime && (
+              <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                <p className="text-sm text-blue-800">
+                  Duration: {(() => {
+                    const checkIn = new Date(`2000-01-01T${checkInTime}`);
+                    const checkOut = new Date(`2000-01-01T${checkOutTime}`);
+                    const timeDifference = checkOut.getTime() - checkIn.getTime();
+                    const hoursDifference = timeDifference / (1000 * 60 * 60);
+                    return `${hoursDifference} hour${hoursDifference !== 1 ? 's' : ''}`;
+                  })()}
+                </p>
+              </div>
+            )}
+
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => setShowTimePickers(false)}
+                className="px-4 py-2 text-gray-600 hover:text-gray-800"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => setShowTimePickers(false)}
+                className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+              >
+                Confirm
               </button>
             </div>
           </div>
