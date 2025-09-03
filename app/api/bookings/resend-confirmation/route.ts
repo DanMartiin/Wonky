@@ -12,13 +12,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Use the complete dynamic data passed from the frontend
+    // Use the ORIGINAL tokens from the booking data, don't generate new ones
     const emailData = {
       ...bookingData,
-      // Generate new tokens for security on each resend
-      confirmationToken: Math.random().toString(36).substring(2, 15),
-      editToken: Math.random().toString(36).substring(2, 15),
-      cancelToken: Math.random().toString(36).substring(2, 15),
+      // Keep the original tokens - don't generate new ones
+      confirmationToken: bookingData.confirmationToken,
+      editToken: bookingData.editToken,
+      cancelToken: bookingData.cancelToken,
     };
 
     // Send the confirmation email using your existing function

@@ -7,7 +7,7 @@ import Header from '@/components/Header';
 
 export default function ConfirmationSentPage() {
   const searchParams = useSearchParams();
-  
+
   // Get ALL data from URL parameters
   const email = searchParams.get('email');
   const bookingId = searchParams.get('bookingId');
@@ -46,7 +46,7 @@ export default function ConfirmationSentPage() {
   // Countdown effect
   useEffect(() => {
     let timer: NodeJS.Timeout;
-    
+
     if (countdown > 0) {
       timer = setTimeout(() => {
         setCountdown(countdown - 1);
@@ -110,7 +110,20 @@ export default function ConfirmationSentPage() {
   return (
     <main className="min-h-screen bg-gray-50">
       <Header />
+      <div className="container mx-auto px-4 py-8">
+        <div className="mb-6 flex items-center gap-2 text-xs text-gray-600">
+          <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-gray-200">1</span>
+          <span>Booking details</span>
+          <span className="mx-2 text-gray-400">•</span>
+          <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-green-700 text-white">2</span>
+          <span>Confirmation Email Sent</span>
+          <span className="mx-2 text-gray-400">•</span>
+          <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-gray-200">3</span>
+          <span>Booking Confirmed</span>
+        </div>
+      </div>
       <div className="min-h-screen flex items-center justify-center">
+
         <div className="max-w-md w-full bg-white rounded-lg shadow-md p-8 mx-4">
           <div className="text-center">
             <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -118,13 +131,13 @@ export default function ConfirmationSentPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2z" />
               </svg>
             </div>
-            
+
             <h1 className="text-2xl font-bold text-gray-900 mb-4">
               Confirmation Email Sent!
             </h1>
-            
+
             <p className="text-gray-600 mb-6">
-              A booking confirmation has been sent to your email address. 
+              A booking confirmation has been sent to your email address.
               Please check your inbox and click the confirmation link to finalize your booking.
             </p>
 
@@ -152,19 +165,18 @@ export default function ConfirmationSentPage() {
               >
                 Return to Home
               </Link>
-              
+
               <button
                 onClick={handleResendEmail}
                 disabled={isResending || !canResend}
-                className={`block w-full px-6 py-3 rounded-lg font-semibold transition-colors ${
-                  canResend 
-                    ? 'bg-gray-600 text-white hover:bg-gray-700' 
+                className={`block w-full px-6 py-3 rounded-lg font-semibold transition-colors ${canResend
+                    ? 'bg-gray-600 text-white hover:bg-gray-700'
                     : 'bg-gray-400 text-gray-600 cursor-not-allowed'
-                } disabled:opacity-50`}
+                  } disabled:opacity-50`}
               >
-                {isResending 
-                  ? 'Sending...' 
-                  : !canResend 
+                {isResending
+                  ? 'Sending...'
+                  : !canResend
                     ? `Resend in ${formatCountdown(countdown)}`
                     : 'Resend Confirmation Email'
                 }
@@ -173,11 +185,10 @@ export default function ConfirmationSentPage() {
 
             {/* Show resend message */}
             {resendMessage && (
-              <div className={`mt-4 p-3 rounded-lg text-sm ${
-                resendMessage.includes('successfully') 
-                  ? 'bg-green-50 text-green-700 border border-green-200' 
+              <div className={`mt-4 p-3 rounded-lg text-sm ${resendMessage.includes('successfully')
+                  ? 'bg-green-50 text-green-700 border border-green-200'
                   : 'bg-red-50 text-red-700 border border-red-200'
-              }`}>
+                }`}>
                 {resendMessage}
               </div>
             )}

@@ -68,6 +68,18 @@ export default function ConfirmBooking() {
   return (
     <main className="min-h-screen bg-gray-50">
       <Header />
+      <div className="container mx-auto px-4 py-8">
+        <div className="mb-6 flex items-center gap-2 text-xs text-gray-600">
+          <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-gray-200">1</span>
+          <span>Booking details</span>
+          <span className="mx-2 text-gray-400">•</span>
+          <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-gray-200">2</span>
+          <span>Confirm and Pay</span>
+          <span className="mx-2 text-gray-400">•</span>
+          <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-green-700 text-white">3</span>
+          <span>Booking Confirmed</span>
+        </div>
+      </div>
       <div className="min-h-screen flex items-center justify-center">
         <div className="max-w-md w-full bg-white rounded-lg shadow-md p-8 mx-4">
           {status === 'loading' && (

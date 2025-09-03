@@ -135,7 +135,10 @@ export default function BookingDetailsPanel({
           <span>Booking details</span>
           <span className="mx-2 text-gray-400">•</span>
           <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-gray-200">2</span>
-          <span>Confirm and Pay</span>
+          <span>Confirmation Email Sent</span>
+          <span className="mx-2 text-gray-400">•</span>
+          <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-gray-200">3</span>
+          <span>Booking Confirmed</span>
         </div>
       )}
 
