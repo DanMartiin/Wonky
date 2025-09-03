@@ -81,10 +81,21 @@ export default function BookingDetailsPanel({
       const data = await response.json();
 
       if (response.ok) {
-        // Redirect to confirmation sent page
+        // Pass ALL booking data through URL parameters
         const params = new URLSearchParams();
         params.set('email', email);
         params.set('bookingId', data.bookingId);
+        params.set('firstName', firstName);
+        params.set('lastName', lastName);
+        params.set('date', date);
+        params.set('checkInTime', checkInTime);
+        params.set('checkOutTime', checkOutTime);
+        params.set('guests', guests);
+        params.set('notes', notes || '');
+        params.set('confirmationToken', data.confirmationToken || '');
+        params.set('editToken', data.editToken || '');
+        params.set('cancelToken', data.cancelToken || '');
+        
         router.push(`/confirmation-sent?${params.toString()}`);
       } else {
         alert(data.error || 'Failed to create booking');
