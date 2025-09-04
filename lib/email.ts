@@ -134,7 +134,6 @@ export async function sendBookingConfirmationEmail(booking: any) {
         
         <p>You can also:</p>
         <ul>
-          <li><a href="${editUrl}">Edit your booking</a></li>
           <li><a href="${cancelUrl}">Cancel your booking</a></li>
         </ul>
         
